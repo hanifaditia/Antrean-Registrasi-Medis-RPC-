@@ -25,7 +25,8 @@ class HospitalServer:
 
     def register_pasien(self, clinic_name, medical_record_number, name, birth_date):
         if clinic_name not in self.klinik:
-            return "Klinik tidak valid"
+            pesan = "Klinik tidak valid"
+            return pesan,"",""
 
         queue_number = len(self.klinik[clinic_name]) + 1
         patient_data = {
