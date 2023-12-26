@@ -1,40 +1,24 @@
 from xmlrpc.server import SimpleXMLRPCServer
-from xmlrpc.server import SimpleXMLRPCRequestHandler
 import datetime
 
 class HospitalServer:
     def __init__(self):
         self.waktu = {
             'Klinik Mata': 0,
-            'Klinik THT': 0
+            'Klinik THT': 0,
+            'Klinik Kulit': 0,
+            
         }
 
         self.klinik = {
             'Klinik Mata': [],
             'Klinik THT': [],
+            'Klinik Kulit':[]
         }
 
-        # Load existing data from file, if any
-        self.load_data()
-
-    def load_data(self):
-        try:
-            with open("hospital_data.txt", mode='r') as file:
-                for line in file:
-                    clinic_name, medical_record_number, name, birth_date, queue_number, register_time = line.strip().split('\t')
-                    self.klinik[clinic_name].append({
-                        'clinic_name': clinic_name,
-                        'medical_record_number': medical_record_number,
-                        'name': name,
-                        'birth_date': birth_date,
-                        'queue_number': int(queue_number),
-                        'register_time': register_time
-                    })
-        except FileNotFoundError:
-            pass
 
     def save_data(self):
-        with open("hospital_data.txt", mode='w') as file:
+        with open("hospital_data.txt", mode='a') as file:
             for clinic_name, patients in self.klinik.items():
                 for patient in patients:
                     file.write('\t'.join([str(patient[field]) for field in ['clinic_name', 'medical_record_number', 'name', 'birth_date', 'queue_number', 'register_time']]) + '\n')
@@ -57,7 +41,6 @@ class HospitalServer:
         if queue_number == 1:
             self.waktu[clinic_name] = datetime.datetime.now()
 
-        # Save data to file after each registration
         self.save_data()
 
         return f"Registrasi berhasil. Nomor antrean Anda di {clinic_name}: {queue_number}", queue_number, clinic_name
@@ -100,7 +83,6 @@ class HospitalServer:
 
 def main():
     server = SimpleXMLRPCServer(('localhost', 8000), allow_none=True)
-    #server.register_introspection_functions()
     server.register_instance(HospitalServer())
     print("Server ready on port 8000")
     server.serve_forever()
