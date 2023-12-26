@@ -71,7 +71,7 @@ class HospitalServer:
                     return f"Perkiraan waktu antrean Anda di {clinic_name}: {waktu_tunggu} menit {i}"
                 else :
                     waktu_tunggu = 60 - wait_time
-                    return f"Perkiraan waktu antrean Anda di {clinic_name}: {waktu_tunggu} menit {i}"
+                    return f"Perkiraan waktu antrean Anda di {clinic_name}: {waktu_tunggu} menit, antrian saat ini adalah{i}"
 
         return "Nomor antrean tidak ditemukan"
     
