@@ -18,14 +18,18 @@ def main():
     client = HospitalClient()
 
     while True:
-        print("1. Registrasi Pasien")
-        print("2. Daftar Klinik")
+        print("1. Daftar Klinik")
+        print("2. Registrasi Pasien")
         print("3. Perkiraan Waktu Tunggu")
         print("4. Keluar")
 
         inp = input("Pilih menu : ")
 
         if inp == "1":
+            list_klinik = client.daftar_klinik()
+            print(list_klinik)
+
+        elif inp == "2":
             clinic_name = input("Masukkan nama klinik: ")
             medical_record_number = input("Masukkan nomor rekam medis: ")
             name = input("Masukkan nama: ")
@@ -35,10 +39,6 @@ def main():
             client.antrian = result[1]
             client.klinik = result[2]
             print(result[0])
-
-        elif inp == "2":
-            list_klinik = client.daftar_klinik()
-            print(list_klinik)
 
         elif inp == "3":
             time_estimate = client.waktu_estimasi(client.klinik, client.antrian)
